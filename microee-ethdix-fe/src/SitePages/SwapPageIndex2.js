@@ -36,7 +36,7 @@ export class _SwapPageIndex extends Component {
                 <div>
                     {
                         defaultTokenList?.map((m, i) => {
-                          return <div key={i}><img width={'20px'} src={m.logoURI?.substr(6)}/>{m.symbol}</div>
+                          return <div key={i}><img width={'20px'} src={m.logoURI?.replaceAll(/https?:\/\//ig, '//')}/>{m.symbol}</div>
                         })
                     }
                 </div>
