@@ -2,7 +2,7 @@
   "name": "microee-ethdix-fe",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:19106",
+  "proxy": "http://ethdix.microee.com",
   "dependencies": {
     "@babel/core": "7.12.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
@@ -36,6 +36,7 @@
     "html-webpack-plugin": "4.5.0",
     "identity-obj-proxy": "3.0.0",
     "mini-css-extract-plugin": "0.11.3",
+    "mobx": "^6.1.4",
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "pnp-webpack-plugin": "1.6.4",
     "postcss-flexbugs-fixes": "4.2.1",
