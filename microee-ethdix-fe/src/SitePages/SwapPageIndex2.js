@@ -33,6 +33,13 @@ export class _SwapPageIndex extends Component {
         return (
             <div className={`${this.props.className} IndexPage`}>
                 {moment().format('YYYY-MM-DD_HH:mm:ss')} 兑换 {defaultTokenList?.length}
+                <div>
+                    {
+                        defaultTokenList?.map((m, i) => {
+                          return <div key={i}><img width={'20px'} src={m.logoURI?.substr(6)}/>{m.symbol}</div>
+                        })
+                    }
+                </div>
             </div>
         );
     }
