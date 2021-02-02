@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import IndexPage from "__pages/index/IndexPage";
 import WalletPageIndex from "__pages/WalletPageIndex";
 import BlockPageIndex from "__pages/BlockPageIndex";
-import SwapPageIndex from "__pages/SwapPageIndex";
+import SwapPageIndex from "__pages/SwapPageIndex2";
 import { NotFoundPage } from "__pages/404/NotFoundPage";
 
 
