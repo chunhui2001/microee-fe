@@ -11,14 +11,14 @@
 ### Uniswap v2 (as a Developer)
 # https://vomtom.at/how-to-use-uniswap-v2-as-a-developer/
 
-### Get uniswap data using the graph
-------------------------------------
+### Get Uniswap data using The Graph GraphQL API
+----------------------------------------------------------------------------
 https://medium.com/coinmonks/get-uniswap-data-using-the-graph-79d0c6f7b9f2
 
 ### Uniswap V2 Subgraph explorer
-------------------------------------
+----------------------------------------------------------------------------
 https://thegraph.com/explorer/
 
 ### Uniswap V2 Subgraph
-------------------------------------
+----------------------------------------------------------------------------
 https://github.com/Uniswap/uniswap-v2-subgraph
