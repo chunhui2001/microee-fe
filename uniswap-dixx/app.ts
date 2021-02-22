@@ -29,7 +29,7 @@ function skipLog (req: express.Request, res: express.Response) {
     var url = req.url;
     if(url.indexOf('?')>0)
         url = url.substr(0,url.indexOf('?'));
-    if(url.match(/(js|jpg|png|ico|css|woff|woff2|eot|ico)$/ig)) {
+    if(url.match(/(js|jpg|png|ico|css|woff|woff2|eot)$/ig)) {
         return true;
     }
     return false;
