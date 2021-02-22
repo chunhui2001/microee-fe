@@ -54,7 +54,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
 // Handle 404
 app.use((req, res, next) => {
     if(res.status(404)) {
-        res.status(200).json({ code: 404, message: 'Not Found' });
+        res.status(404).json({ code: 404, message: 'Not Found' });
     }
 });
 
