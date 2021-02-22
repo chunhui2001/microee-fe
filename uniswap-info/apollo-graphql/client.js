@@ -7,8 +7,8 @@ const InMemoryCache = require("apollo-cache-inmemory").InMemoryCache;
 
 export const client = new ApolloClient({
   link: createHttpLink({
-    __uri: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
-    uri: 'https://graph.mdex.com/subgraphs/name/mdex/swap',
+    uri: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
+    __uri: 'https://graph.mdex.com/subgraphs/name/mdex/swap',
     fetch: fetch
   }),
   cache: new InMemoryCache(),
@@ -17,8 +17,8 @@ export const client = new ApolloClient({
 
 export const healthClient = new ApolloClient({
   link: createHttpLink({
-    __uri: 'https://api.thegraph.com/index-node/graphql',
-    uri: 'https://health.mdex.com/graphql',
+    uri: 'https://api.thegraph.com/index-node/graphql',
+    __uri: 'https://health.mdex.com/graphql',
     fetch: fetch
   }),
   cache: new InMemoryCache(),
@@ -45,8 +45,8 @@ export const stakingClient = new ApolloClient({
 
 export const blockClient = new ApolloClient({
   link: createHttpLink({
-    __uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/ethereum-blocks',
-    uri: 'https://graph.mdex.com/subgraphs/name/mdex-heco-blocks',
+    uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/ethereum-blocks',
+    __uri: 'https://graph.mdex.com/subgraphs/name/mdex-heco-blocks',
     fetch: fetch
   }),
   cache: new InMemoryCache(),

@@ -5,6 +5,7 @@ import cors from 'cors'
 import debug from 'debug';
 import morgan from 'morgan';
 import moment from 'moment-timezone';
+const helmet = require("helmet");
 
 import { CommonRoutesConfig } from './common/common.routes.config';
 import { UniV2SDKRoutes } from './routers/univ2/univ2-sdk.routes.config';
@@ -21,14 +22,15 @@ const port: number = 3101;
 const routes: Array<CommonRoutesConfig> = [];
 const loggerInfo: debug.IDebugger = debug('app');
 const loggerError: debug.IDebugger = debug('app-error');
+const favicon = Buffer.from('AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA/4QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREQAAAAAAEAAAEAAAAAEAAAABAAAAEAAAAAAQAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAP//AAD8HwAA++8AAPf3AADv+wAA7/sAAP//AAD//wAA+98AAP//AAD//wAA//8AAP//AAD//wAA', 'base64');
 
 morgan.token('date', () => {
     return moment().tz('Asia/Shanghai').format();
 });
 
-morgan.format('myformat', '[:date] ":method :url" :status :res[content-length] - :response-time ms');
-
-app.use(morgan('combined'));
+morgan.format('myformat', '[:date] ":method :url" :status :res[content-length] - :response-time/ms');
+app.use(helmet());
+app.use(morgan('myformat'));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(cors());

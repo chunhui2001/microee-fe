@@ -5,8 +5,10 @@ import debug from 'debug';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import web3 from "web3";
+const cache = require('memory-cache');
 
 import { client, blockClient } from '../../apollo-graphql/client';
+import { getAllTokens, getTradeVolumeUSDOneDay, getTradeVolumeUSDOneDayBluk } from '../../controllers/Univ2TokenController';
 
 import {
   get2DayPercentChange,
@@ -29,8 +31,6 @@ import {
 } from '../../apollo-graphql/queries';
 
 const loggerInfo: debug.IDebugger = debug('app-univ2-api-token');
-
-
 
 dayjs.extend(utc);
 
@@ -87,6 +87,63 @@ export class Univ2TokenRoutes extends CommonRoutesConfig {
                     const [oneDayVolumeUSD, volumeChangeUSD] = get2DayPercentChange( data.tradeVolumeUSD, oneDayData?.tradeVolumeUSD ?? 0, twoDayData?.tradeVolumeUSD ?? 0 );
                     const [oneDayVolumeUT, volumeChangeUT] = get2DayPercentChange( data.untrackedVolumeUSD, oneDayData?.untrackedVolumeUSD ?? 0, twoDayData?.untrackedVolumeUSD ?? 0 );
                     return res.status(200).json({ code: 200, message: 'OK',  data: { tradeVolumePassed24Hrs: !!oneDayVolumeUSD ? oneDayVolumeUSD : oneDayVolumeUT } });
+                  } catch (err) {
+                    next(err);
+                  }
+                })();
+            });
+        // 查所有代币过去24小时的交易总量
+        this.app.route(`/getTradeVolumeUSDOneDayBluk`)
+            .get((req: express.Request, res: express.Response, next: express.NextFunction) => {
+                let data = cache.get('_ALL_TOKENS_DATA');
+                if (data) {
+                  return res.status(200).json({ code: 200, message: 'OK',  data: JSON.parse(data) });
+                }
+                let data_1min = cache.get('_ALL_TOKENS_DATA_1MIN');
+                if (data_1min) {
+                  return res.status(200).json({ code: 200, message: 'OK',  data: JSON.parse(data_1min) });
+                }
+                let data_2min = cache.get('_ALL_TOKENS_DATA_2MIN');
+                if (data_2min) {
+                  return res.status(200).json({ code: 200, message: 'OK',  data: JSON.parse(data_2min) });
+                }
+                let data_5min = cache.get('_ALL_TOKENS_DATA_5MIN');
+                if (data_5min) {
+                  return res.status(200).json({ code: 200, message: 'OK',  data: JSON.parse(data_5min) });
+                }
+                let data_10min = cache.get('_ALL_TOKENS_DATA_10MIN');
+                if (data_10min) {
+                  return res.status(200).json({ code: 200, message: 'OK',  data: JSON.parse(data_10min) });
+                }
+                let data_15min = cache.get('_ALL_TOKENS_DATA_15MIN');
+                if (data_15min) {
+                  return res.status(200).json({ code: 200, message: 'OK',  data: JSON.parse(data_15min) });
+                }
+                let data_30min = cache.get('_ALL_TOKENS_DATA_30MIN');
+                if (data_30min) {
+                  return res.status(200).json({ code: 200, message: 'OK',  data: JSON.parse(data_30min) });
+                }
+                let data_45min = cache.get('_ALL_TOKENS_DATA_45MIN');
+                if (data_45min) {
+                  return res.status(200).json({ code: 200, message: 'OK',  data: JSON.parse(data_45min) });
+                }
+                let data_60min = cache.get('_ALL_TOKENS_DATA_60MIN');
+                if (data_60min) {
+                  return res.status(200).json({ code: 200, message: 'OK',  data: JSON.parse(data_60min) });
+                }
+                (async () => {
+                  try {
+                    let result: any[] = await getTradeVolumeUSDOneDayBluk();
+                    cache.put('_ALL_TOKENS_DATA', JSON.stringify(result), 1000 * 30); // 30s
+                    cache.put('_ALL_TOKENS_DATA_1MIN', JSON.stringify(result), 1000 * 60); // 1min
+                    cache.put('_ALL_TOKENS_DATA_2MIN', JSON.stringify(result), 1000 * 120); // 2min
+                    cache.put('_ALL_TOKENS_DATA_5MIN', JSON.stringify(result), 1000 * 60 * 5); // 5min
+                    cache.put('_ALL_TOKENS_DATA_10MIN', JSON.stringify(result), 1000 * 60 * 10); // 10min
+                    cache.put('_ALL_TOKENS_DATA_15MIN', JSON.stringify(result), 1000 * 60 * 15); // 15min
+                    cache.put('_ALL_TOKENS_DATA_30MIN', JSON.stringify(result), 1000 * 60 * 30); // 30min
+                    cache.put('_ALL_TOKENS_DATA_45MIN', JSON.stringify(result), 1000 * 60 * 45); // 45min
+                    cache.put('_ALL_TOKENS_DATA_60MIN', JSON.stringify(result), 1000 * 60 * 60); // 60min
+                    return res.status(200).json({ code: 200, message: 'OK',  data: result });
                   } catch (err) {
                     next(err);
                   }
