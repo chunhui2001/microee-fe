@@ -24,13 +24,23 @@ const loggerInfo: debug.IDebugger = debug('app');
 const loggerError: debug.IDebugger = debug('app-error');
 const favicon = Buffer.from('AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA/4QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREQAAAAAAEAAAEAAAAAEAAAABAAAAEAAAAAAQAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAP//AAD8HwAA++8AAPf3AADv+wAA7/sAAP//AAD//wAA+98AAP//AAD//wAA//8AAP//AAD//wAA', 'base64');
 
+
+function skipLog (req: express.Request, res: express.Response) {
+    var url = req.url;
+    if(url.indexOf('?')>0)
+        url = url.substr(0,url.indexOf('?'));
+    if(url.match(/(js|jpg|png|ico|css|woff|woff2|eot|ico)$/ig)) {
+        return true;
+    }
+    return false;
+}
+
 morgan.token('date', () => {
     return moment().tz('Asia/Shanghai').format();
 });
 
 morgan.format('myformat', '[:date] ":method :url" :status :res[content-length] - :response-time/ms');
-app.use(helmet());
-app.use(morgan('myformat'));
+app.use(morgan('myformat', { skip: skipLog }));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(cors());
