@@ -24,22 +24,12 @@ const favicon = Buffer.from('AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAA
 
 import { getTradeVolumeUSDOneDayBluk } from './controllers/Univ2TokenController';
 
-function skipLog (req: express.Request, res: express.Response) {
-    var url = req.url;
-    if(url.indexOf('?')>0)
-        url = url.substr(0,url.indexOf('?'));
-    if(url.match(/(js|jpg|png|ico|css|woff|woff2|eot|ico)$/ig)) {
-        return true;
-    }
-    return false;
-}
-
 morgan.token('date', () => {
     return moment().tz('Asia/Shanghai').format();
 });
 
-morgan.format('myformat', '[:date] ":method :url" :status :res[content-length] - :response-time/ms');
-app.use(morgan('myformat', { skip: skipLog }));
+morgan.token('date', () => moment().tz('Asia/Shanghai').format()).format('myformat', '[:date] ":method :url" :status :res[content-length] - :response-time/ms');
+app.use(morgan('myformat'));
 app.use(helmet());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));

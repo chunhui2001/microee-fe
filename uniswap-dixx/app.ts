@@ -35,11 +35,7 @@ function skipLog (req: express.Request, res: express.Response) {
     return false;
 }
 
-morgan.token('date', () => {
-    return moment().tz('Asia/Shanghai').format();
-});
-
-morgan.format('myformat', '[:date] ":method :url" :status :res[content-length] - :response-time/ms');
+morgan.token('date', () => moment().tz('Asia/Shanghai').format()).format('myformat', '[:date] ":method :url" :status :res[content-length] - :response-time/ms');
 app.use(morgan('myformat', { skip: skipLog }));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
