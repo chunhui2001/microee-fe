@@ -8,6 +8,8 @@ import moment from 'moment-timezone';
 const schedule = require('node-schedule');
 const helmet = require("helmet");
 const cache = require('memory-cache');
+const favicon = require('serve-favicon');
+const path = require('path');
 
 import { CommonRoutesConfig } from './common/common.routes.config';
 import { Univ2TokenRoutes } from './routers/univ2/univ2-token.routes.config';
@@ -20,7 +22,6 @@ const port: number = 3101;
 const routes: Array<CommonRoutesConfig> = [];
 const loggerInfo: debug.IDebugger = debug('app');
 const loggerError: debug.IDebugger = debug('app-error');
-const favicon = Buffer.from('AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA/4QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREQAAAAAAEAAAEAAAAAEAAAABAAAAEAAAAAAQAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAP//AAD8HwAA++8AAPf3AADv+wAA7/sAAP//AAD//wAA+98AAP//AAD//wAA//8AAP//AAD//wAA', 'base64');
 
 import { getTradeVolumeUSDOneDayBluk } from './controllers/Univ2TokenController';
 
@@ -34,11 +35,9 @@ function skipLog (req: express.Request, res: express.Response) {
     return false;
 }
 
-morgan.token('date', () => {
-    return moment().tz('Asia/Shanghai').format();
-});
-
 morgan.token('date', () => moment().tz('Asia/Shanghai').format()).format('myformat', '[:date] ":method :url" :status :res[content-length] - :response-time/ms');
+
+app.use(favicon(path.join(__dirname, 'static', 'favicon.ico')))
 app.use(morgan('myformat', { skip: skipLog }));
 app.use(helmet());
 app.use(bodyparser.json());
